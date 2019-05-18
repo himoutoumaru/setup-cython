@@ -93,7 +93,7 @@ setup(
     install_requires=["cython", "logzero", "PyInstaller"],
     packages=local_packages,
     platforms="any",
-    scripts=glob("bin/*"),
+    # scripts=glob("bin/*"),
     entry_points={},
     zip_safe=False,
     ext_modules=cythonize(
