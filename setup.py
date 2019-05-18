@@ -1,7 +1,6 @@
 import os
 import platform
 import shutil
-import sys
 from distutils.command.build_ext import build_ext
 from glob import glob
 from pathlib import Path
