@@ -13,3 +13,11 @@ python setup.py build
 会在根目录下生成build文件夹，并且会生成对应的pyd/so文件。既可以加速Python执行的性能，又可以保护源码安全
 
 会在根目录下生产dist文件夹，这个文件夹是PyInstaller打包后的软件包，可以直接打包拷贝走部署
+
+# 使用模板项目
+
+## setup-cython-quickstart
+
+```
+cookiecutter ./setup-cython/setup-cython-quickstart/
+```
