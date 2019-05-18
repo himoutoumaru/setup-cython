@@ -1,3 +1,4 @@
-from setup_cython.sub_tool.demo import demo
+from setup_cython.bootstrap import app
 
-demo()
+if __name__ == '__main__':
+    app.run()
