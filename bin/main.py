@@ -1,3 +1,3 @@
-from cython_setup.sub_tool.demo import demo
+from setup_cython.sub_tool.demo import demo
 
 demo()

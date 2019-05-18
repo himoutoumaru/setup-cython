@@ -12,7 +12,7 @@ from setuptools import setup, Extension, find_packages
 local_packages = find_packages()
 extentions = []
 bin_script = Path(glob("bin/*")[0]).name.split('.')[0]
-mod = Path(os.getcwd()).name
+mod = Path(os.getcwd()).name.replace('-', '_')
 for obj in local_packages:
     dir_path = "./" + obj.replace(".", "/")
     extent_name_list = []
