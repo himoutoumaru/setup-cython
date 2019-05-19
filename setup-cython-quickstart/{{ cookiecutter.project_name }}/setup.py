@@ -12,6 +12,9 @@ local_packages = find_packages()
 extentions = []
 bin_script = Path(glob("bin/*")[0]).name.split('.')[0]
 mod = Path(os.getcwd()).name.replace('-', '_')
+
+with_scikit = False
+
 for obj in local_packages:
     dir_path = "./" + obj.replace(".", "/")
     extent_name_list = []
@@ -64,7 +67,25 @@ class KitBuildExt(build_ext):
         """
         使用PyInstaller编译应用
         """
-        os.system('pyinstaller ./bin/%s.py' % bin_script)
+        pyinstall_spec = 'pyi-makespec ./bin/%s.py ' % bin_script
+        if with_scikit:
+            pyinstall_spec += '--hiddenimport sklearn '
+            pyinstall_spec += '--hiddenimport sklearn.ensemble '
+            pyinstall_spec += '--hiddenimport sklearn.tree._utils '
+            pyinstall_spec += '--hiddenimport sklearn.neighbors.typedefs '
+            pyinstall_spec += '--hiddenimport sklearn.neighbors.ball_tree '
+            pyinstall_spec += '--hiddenimport sklearn.neighbors.dist_metrics '
+            pyinstall_spec += '--hiddenimport sklearn.neighbors.quad_tree '
+            pyinstall_spec += '--hiddenimport sklearn.utils._cython_blas '
+            pyinstall_spec += '--hiddenimport scipy._lib.messagestream '
+        os.system(pyinstall_spec)
+
+        with open('./%s.spec' % bin_script, 'r+') as f:
+            content = f.read()
+            f.seek(0, 0)
+            f.write('import sys\nsys.setrecursionlimit(5000)\n' + content)
+
+        os.system('pyinstaller ./%s.spec' % bin_script)
         shutil.move(os.path.join(target_dir, mod), './dist/main')
 
         sysstr = platform.system()
@@ -93,7 +114,7 @@ setup(
     install_requires=["cython", "logzero", "PyInstaller"],
     packages=local_packages,
     platforms="any",
-    scripts=glob("bin/*"),
+    # scripts=glob("bin/*"),
     entry_points={},
     zip_safe=False,
     ext_modules=cythonize(

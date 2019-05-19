@@ -1,9 +1,8 @@
 import multiprocessing
-from setup_cython.bootstrap import app
-
 import os
 import sys
-import multiprocessing
+
+from setup_cython.bootstrap import app
 
 # Module multiprocessing is organized differently in Python 3.4+
 try:
