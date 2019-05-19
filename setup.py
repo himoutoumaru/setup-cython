@@ -71,13 +71,13 @@ class KitBuildExt(build_ext):
         if with_scikit:
             pyinstall_spec += '--hiddenimport sklearn '
             pyinstall_spec += '--hiddenimport sklearn.ensemble '
-            pyinstall_spec += '--hiddenimport scipy._lib.messagestream '
             pyinstall_spec += '--hiddenimport sklearn.tree._utils '
             pyinstall_spec += '--hiddenimport sklearn.neighbors.typedefs '
             pyinstall_spec += '--hiddenimport sklearn.neighbors.ball_tree '
             pyinstall_spec += '--hiddenimport sklearn.neighbors.dist_metrics '
             pyinstall_spec += '--hiddenimport sklearn.neighbors.quad_tree '
             pyinstall_spec += '--hiddenimport sklearn.utils._cython_blas '
+            pyinstall_spec += '--hiddenimport scipy._lib.messagestream '
         os.system(pyinstall_spec)
 
         with open('./%s.spec' % bin_script, 'r+') as f:
