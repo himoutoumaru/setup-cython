@@ -9,7 +9,7 @@ from Cython.Build import cythonize
 from setuptools import setup, Extension, find_packages
 
 local_packages = find_packages()
-bin_script = '{{cookiecutter.bootstrap_name}}.py'
+bin_script = '{{cookiecutter.bootstrap_name}}'
 mod = '{{cookiecutter.package_name}}'
 
 with_scikit = '{{cookiecutter.use_scikit}}'
@@ -85,7 +85,7 @@ class KitBuildExt(build_ext):
             f.seek(0, 0)
             f.write('import sys\nsys.setrecursionlimit(5000)\n' + content)
 
-        os.system('pyinstaller ./%s.spec' % bin_script)
+        os.system('pyinstaller --clean ./%s.spec' % bin_script)
         shutil.move(os.path.join(target_dir, mod), './dist/main')
 
         sysstr = platform.system()
