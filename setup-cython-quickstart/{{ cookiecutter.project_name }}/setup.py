@@ -9,10 +9,10 @@ from Cython.Build import cythonize
 from setuptools import setup, Extension, find_packages
 
 local_packages = find_packages()
-bin_script = {{cookiecutter.bootstrap_name}}.py
-mod = {{cookiecutter.package_name}}
+bin_script = '{{cookiecutter.bootstrap_name}}.py'
+mod = '{{cookiecutter.package_name}}'
 
-with_scikit = {{cookiecutter.use_scikit}}
+with_scikit = '{{cookiecutter.use_scikit}}'
 
 extentions = []
 for obj in local_packages:
