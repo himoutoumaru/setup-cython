@@ -1,9 +1,12 @@
 import os
 import platform
 
-os.system('virtualenv --python=python3 venv')
+os.system('virtualenv venv')
 sysstr = platform.system()
+
 if sysstr == "Linux":
-    os.system('./venv/bin/pip -r requirements.txt')
+    os.system(
+        './venv/bin/pip install -r ./requirements.txt')
 else:
-    os.system('./venv/Scripts/pip.exe -r requirements.txt')
+    os.system(
+        '.\\venv\\Scripts\\pip.exe install -r .\\requirements.txt')
