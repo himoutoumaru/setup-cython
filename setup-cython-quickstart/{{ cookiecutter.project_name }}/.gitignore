@@ -1,0 +1,9 @@
+build
+venv
+.idea
+vcs.xml
+.vscode
+dist
+*.zip
+*.spec
+*.pyc
