@@ -9,5 +9,5 @@
 ## setup-cython-quickstart
 
 ```
-cookiecutter ./setup-cython/setup-cython-quickstart/
+cookiecutter https://github.com/himoutoumaru/setup-cython.git
 ```
