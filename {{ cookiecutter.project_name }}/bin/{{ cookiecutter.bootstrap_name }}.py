@@ -31,7 +31,7 @@ if sys.platform.startswith('win'):
 
 @click.command()
 @click.option("--cmd", default='server', help="Run Server")
-def run(cmd, model_path):
+def run(cmd):
     if 'server' == cmd:
         logger.info('Server Started')
     if 'agent' == cmd:
