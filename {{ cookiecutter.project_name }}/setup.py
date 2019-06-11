@@ -13,7 +13,7 @@ bin_script = '{{cookiecutter.bootstrap_name}}'
 mod = '{{cookiecutter.package_name}}'
 
 with_scikit = '{{cookiecutter.use_scikit}}'
-
+with_statics_model = '{{cookiecutter.use_statics_model}}'
 extentions = []
 for obj in local_packages:
     dir_path = os.path.join('.', obj.replace(".", "/"))
@@ -39,7 +39,8 @@ class KitBuildExt(build_ext):
         """
         for obj in local_packages:
             dir_path = obj.replace(".", "/")
-            self.copy_file(Path(dir_path) / "__init__.py", root_dir, target_dir)
+            self.copy_file(Path(dir_path) / "__init__.py",
+                           root_dir, target_dir)
 
         """
         移除Python源码
@@ -47,7 +48,8 @@ class KitBuildExt(build_ext):
         for obj in local_packages:
             for name in os.listdir(os.path.join(target_dir, obj.replace(".", "/"))):
                 if "__" not in name and name.endswith(".py"):
-                    os.remove(os.path.join(target_dir, obj.replace(".", "/"), name))
+                    os.remove(os.path.join(
+                        target_dir, obj.replace(".", "/"), name))
 
         """
         恢复项目的层级关系，不然自身依赖会找不到的
@@ -78,6 +80,17 @@ class KitBuildExt(build_ext):
             pyinstall_spec += '--hiddenimport sklearn.neighbors.quad_tree '
             pyinstall_spec += '--hiddenimport sklearn.utils._cython_blas '
             pyinstall_spec += '--hiddenimport scipy._lib.messagestream '
+        if with_statics_model == 'yes':
+            pyinstall_spec += '--hiddenimport statsmodels.tsa.statespace._filters '
+            pyinstall_spec += '--hiddenimport statsmodels.tsa.statespace._filters._conventional '
+            pyinstall_spec += '--hiddenimport statsmodels.tsa.statespace._filters._univariate '
+            pyinstall_spec += '--hiddenimport statsmodels.tsa.statespace._filters._inversions '
+            pyinstall_spec += '--hiddenimport statsmodels.tsa.statespace._smoothers '
+            pyinstall_spec += '--hiddenimport statsmodels.tsa.statespace._smoothers._conventional '
+            pyinstall_spec += '--hiddenimport statsmodels.tsa.statespace._smoothers._univariate '
+            pyinstall_spec += '--hiddenimport statsmodels.tsa.statespace._smoothers._inversions '
+            pyinstall_spec += '--hiddenimport statsmodels.tsa.statespace._smoothers._classical '
+            pyinstall_spec += '--hiddenimport statsmodels.tsa.statespace._smoothers._alternative '
         os.system(pyinstall_spec)
 
         with open('./%s.spec' % bin_script, 'r+') as f:
@@ -92,7 +105,8 @@ class KitBuildExt(build_ext):
         if sysstr == "Linux":
             os.system(
                 'staticx -l %s %s %s' % (
-                    os.path.join(os.path.abspath('.'), 'dist', bin_script + '/'),
+                    os.path.join(os.path.abspath('.'),
+                                 'dist', bin_script + '/'),
                     './dist/%s/%s' % (bin_script, bin_script), './' + bin_script))
 
     def copy_file(self, path, source_dir, destination_dir):
@@ -111,7 +125,7 @@ setup(
     author="umaru",
     author_email="15875339926@139.com",
     license="MIT",
-    install_requires=["cython", "logzero", "PyInstaller"],
+    install_requires=["cython", "logzero", "PyInstaller", "click"],
     packages=local_packages,
     platforms="any",
     entry_points={},

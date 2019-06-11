@@ -2,6 +2,7 @@ from logzero import logger
 import multiprocessing
 import os
 import sys
+import click
 
 try:
     if sys.platform.startswith('win'):
@@ -25,9 +26,19 @@ if sys.platform.startswith('win'):
                     else:
                         os.putenv('_MEIPASS2', '')
 
-
     forking.Popen = _Popen
+
+
+@click.command()
+@click.option("--cmd", default='server', help="Run Server")
+def run(cmd, model_path):
+    if 'server' == cmd:
+        logger.info('Server Started')
+    if 'agent' == cmd:
+        logger.info('Agent Started')
+
 
 if __name__ == '__main__':
     multiprocessing.freeze_support()
     logger.info('Application Started')
+    run()

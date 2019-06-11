@@ -5,5 +5,9 @@
   "use_scikit": [
     "no",
     "yes"
+  ],
+  "use_statics_model": [
+    "no",
+    "yes"
   ]
 }
