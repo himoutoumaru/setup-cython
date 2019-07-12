@@ -4,25 +4,27 @@ import shutil
 from distutils.command.build_ext import build_ext
 from glob import glob
 from pathlib import Path
-
 from Cython.Build import cythonize
 from setuptools import setup, Extension, find_packages
 
 local_packages = find_packages()
+
+local_packages.remove('tests')
+
 bin_script = '{{cookiecutter.bootstrap_name}}'
 mod = '{{cookiecutter.package_name}}'
 
 with_scikit = '{{cookiecutter.use_scikit}}'
 with_statics_model = '{{cookiecutter.use_statics_model}}'
+
 extentions = []
 for obj in local_packages:
     dir_path = os.path.join('.', obj.replace(".", "/"))
-    extent_name_list = []
     for name in os.listdir(dir_path):
         if "__" in name or os.path.isdir(dir_path + "/" + name):
             continue
-        extent_name_list.append("%s/%s" % (obj.replace(".", "/"), name))
-        extentions.append(Extension(obj + ".*", extent_name_list))
+        extentions.append(Extension(
+            obj + '.' + name.replace('.py', ''), ["%s/%s" % (obj.replace(".", "/"), name)]))
 
 
 class KitBuildExt(build_ext):
@@ -69,7 +71,7 @@ class KitBuildExt(build_ext):
         """
         使用PyInstaller编译应用
         """
-        pyinstall_spec = 'pyi-makespec ./bin/%s.py ' % bin_script
+        pyinstall_spec = 'pyi-makespec ./%s.py ' % bin_script
         if with_scikit == 'yes':
             pyinstall_spec += '--hiddenimport sklearn '
             pyinstall_spec += '--hiddenimport sklearn.ensemble '
@@ -118,7 +120,7 @@ class KitBuildExt(build_ext):
 
 setup(
     name=mod,
-    version="0.0.3",
+    version="0.0.4",
     description="Cython Project",
     long_description="Cython Project",
     url="",
