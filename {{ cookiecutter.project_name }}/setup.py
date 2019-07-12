@@ -9,7 +9,7 @@ from setuptools import setup, Extension, find_packages
 
 local_packages = find_packages()
 
-local_packages.remove('tests')
+# local_packages.remove('tests')
 
 bin_script = '{{cookiecutter.bootstrap_name}}'
 mod = '{{cookiecutter.package_name}}'

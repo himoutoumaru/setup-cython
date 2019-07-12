@@ -1,4 +1,5 @@
 altgraph==0.16.1
+Click==7.0
 colorama==0.4.1
 Cython==0.29.7
 future==0.17.1
